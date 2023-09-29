@@ -29,6 +29,12 @@ public class UsuarioController {
     /*
      * Preciso passar o nome, pronome e cidade do usuário
      */
+
+    @GetMapping("/teste")
+    public ResponseEntity<?> teste(){
+        return ResponseEntity.ok().body("Autenticacao bem sucedida!");
+    }
+
     @PostMapping("/cadastrarusuario")
     public ResponseEntity<?> cadastrarUsuario(@RequestBody UsuarioDto usuarioDto) throws SalvarUsuarioException {
 
@@ -37,6 +43,9 @@ public class UsuarioController {
         try{
             usuario = usuarioService.criarUsuario(usuario);
             usuarioDto.setId(usuario.getId());
+
+
+
         } catch(Exception e){
             return ResponseEntity.badRequest().body(e.getMessage());
         }

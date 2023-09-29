@@ -1,37 +1,50 @@
 package com.enlace.api.model;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToOne;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
-import org.springframework.lang.NonNull;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToOne;
+import jakarta.validation.constraints.NotNull;
 
 import com.enlace.api.component.enums.Pronome;
 import com.enlace.api.model.contato.Contato;
 import com.enlace.api.model.contato.Interesse;
 
 @Entity
-public class Usuario {
+public class Usuario implements UserDetails{
 	
 	//Faltam atributos Email e Senha para autenticacao
 	
-	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
-	
-	@NonNull
+	@Id @GeneratedValue(strategy = GenerationType.UUID)
+	private String id;
+
+	@NotNull
 	private String nome;
+
+	@NotNull
+	private String email;
 	
-	@NonNull
+	@NotNull
+	private String senha;
+
+	@NotNull
+	private UsuarioRoles role;
+
+	@NotNull
 	private Pronome pronome;
 	
-	@NonNull
+	@NotNull
 	private String cidade;
 	
 	@ManyToMany(fetch = FetchType.LAZY)
@@ -42,17 +55,19 @@ public class Usuario {
 	
 	@OneToOne
 	private MeuInstagram meuInstagram;
+
 	
 	/*
 	 * 
 	 * 
 	 */
 	
-	public Long getId() {
+
+	public String getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 
@@ -104,4 +119,78 @@ public class Usuario {
 		this.meuInstagram = meuInstagram;
 	}
 	
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getSenha(){
+		return senha;
+	}
+
+	public void setSenha(String senha){
+		this.senha = senha;
+	}
+	public UsuarioRoles getRole() {
+		return role;
+	}
+
+	public void setRole(UsuarioRoles role) {
+		this.role = role;
+	}
+
+
+	// Spring Security
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		if(this.role == UsuarioRoles.ROLE_ADMIN){
+
+			return List.of(new SimpleGrantedAuthority("ROLE_ADMIN"), 
+				new SimpleGrantedAuthority("ROLE_USER"));
+
+		} else {
+			
+			return List.of(new SimpleGrantedAuthority("ROLE_USER"));
+		}
+	}
+
+	@Override
+	public String getPassword() {
+		
+		return this.senha;
+	}
+
+	@Override
+	public String getUsername() {
+		
+		return this.email;
+	}
+
+	@Override
+	public boolean isAccountNonExpired() {
+		
+		return true;
+	}
+
+	@Override
+	public boolean isAccountNonLocked() {
+		
+		return true;
+	}
+
+	@Override
+	public boolean isCredentialsNonExpired() {
+		
+		return true;
+	}
+
+	@Override
+	public boolean isEnabled() {
+		
+		return true;
+	}
+
 }

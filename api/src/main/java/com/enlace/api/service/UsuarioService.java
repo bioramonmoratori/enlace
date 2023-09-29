@@ -66,7 +66,7 @@ public class UsuarioService {
     
     public Usuario atualizarUsuario(Usuario informacoesDeAlteracaoDoUsuario) throws AlterarUsuarioException{
         try{
-            Usuario usuario = usuarioRepository.findById(informacoesDeAlteracaoDoUsuario.getId()).get();
+            Usuario usuario = usuarioRepository.findById(informacoesDeAlteracaoDoUsuario.getId());
             usuarioRepository.save(usuario);
             return usuario;
         } catch(Exception e){

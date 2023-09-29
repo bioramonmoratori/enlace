@@ -2,12 +2,13 @@ package com.enlace.api.model.contato;
 
 import java.math.BigDecimal;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 
-import com.enlace.api.model.CalculoDePrioridadeDoContatoDoInstagram;
+
+import com.enlace.api.service.CalculoDePrioridadeDoContatoDoInstagram;
 
 @Entity
 public class ContatoInstagram extends Contato{

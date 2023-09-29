@@ -2,21 +2,21 @@ package com.enlace.api.model.contato;
 
 import java.math.BigDecimal;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.validation.constraints.NotNull;
 
-import org.springframework.lang.NonNull;
 
 @Entity
 public class AfinidadeDoUsuarioComOContato {
 	
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	Long id;
-	@NonNull
+	@NotNull
 	private String tituloDaAfinidade;
-	@NonNull
+	@NotNull
 	private BigDecimal valorDaAfinidade;
 	
 	/*

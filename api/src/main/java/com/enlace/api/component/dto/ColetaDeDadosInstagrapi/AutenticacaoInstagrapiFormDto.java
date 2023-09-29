@@ -1,7 +1,7 @@
-package com.enlace.api.component.dto.ColetaDeDadosInstagram;
+package com.enlace.api.component.dto.ColetaDeDadosInstagrapi;
 
 
-public class AutenticacaoInstagramFormDto {
+public class AutenticacaoInstagrapiFormDto {
     
     private String username;
     private String password;

@@ -1,9 +1,9 @@
-package com.enlace.api.component.dto.ColetaDeDadosInstagram;
+package com.enlace.api.component.dto.ColetaDeDadosInstagrapi;
 
 import org.springframework.stereotype.Component;
 
 @Component
-public class ContatoForm {
+public class ContatoInstagrapiForm {
     
     private String usuario;
     private String fotoDePerfilURL;

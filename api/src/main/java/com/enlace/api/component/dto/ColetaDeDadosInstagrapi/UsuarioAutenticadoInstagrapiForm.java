@@ -1,9 +1,9 @@
-package com.enlace.api.component.dto.ColetaDeDadosInstagram;
+package com.enlace.api.component.dto.ColetaDeDadosInstagrapi;
 
 import org.springframework.stereotype.Component;
 
 @Component
-public class UsuarioInstagramForm {
+public class UsuarioAutenticadoInstagrapiForm {
     
     private String sessionID;
     private String userID;
