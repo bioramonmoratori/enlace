@@ -51,7 +51,7 @@ public class SecurityConfig {
         .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
         // Autenticacao Stateless (nao armazenamos as informacoes do usuario logado)
         .authorizeHttpRequests(authorize -> authorize
-            
+            .requestMatchers(HttpMethod.POST, "/api/usuario/teste").permitAll()
             .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
             .requestMatchers(HttpMethod.POST, "/auth/register").permitAll()
             .requestMatchers(HttpMethod.GET, "/api/usuario").hasAnyRole("USER", "ADMIN")
