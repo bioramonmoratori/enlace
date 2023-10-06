@@ -22,7 +22,6 @@ import jakarta.servlet.http.HttpServletResponse;
 //Filtro de uma vez por requisicao, por isso extende a classe
 public class SecurityFilter extends OncePerRequestFilter{
     
-    @Autowired
     UsuarioRepository usuarioRepository;
 
     @Autowired

@@ -16,6 +16,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import com.enlace.api.component.auth.SecurityFilter;
 
+
 @Configuration
 @EnableWebSecurity // Habilita as configuracoes personalizadas de seguranca
 public class SecurityConfig {
@@ -26,6 +27,21 @@ public class SecurityConfig {
     @Autowired
     SecurityFilter securityFilter;
 
+    private static final String[] AUTH_WHITELIST = {
+        // -- Swagger UI v2
+        "/v2/api-docs",
+        "/swagger-resources",
+        "/swagger-resources/**",
+        "/configuration/ui",
+        "/configuration/security",
+        "/swagger-ui.html",
+        "/webjars/**",
+        // -- Swagger UI v3 (OpenAPI)
+        "/v3/api-docs/**",
+        "/swagger-ui/**"
+        // other public endpoints of your API may be appended to this array
+    };
+
     // Cadeia de verificacoes para confirmar se o usuario esta apto a usar a aplicacao
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
@@ -35,12 +51,16 @@ public class SecurityConfig {
         .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
         // Autenticacao Stateless (nao armazenamos as informacoes do usuario logado)
         .authorizeHttpRequests(authorize -> authorize
+            
             .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
             .requestMatchers(HttpMethod.POST, "/auth/register").permitAll()
             .requestMatchers(HttpMethod.GET, "/api/usuario").hasAnyRole("USER", "ADMIN")
-            .anyRequest().authenticated())
-            //Determino que o filtro securityFilter ocorra antes do filtro de autenticacao usernamepassword
-            .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
+            .requestMatchers(HttpMethod.POST, AUTH_WHITELIST).permitAll()
+            .requestMatchers(HttpMethod.GET, AUTH_WHITELIST).permitAll()
+            .anyRequest().permitAll())
+        //Determino que o filtro securityFilter ocorra antes do filtro de autenticacao usernamepassword
+        .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
+        .logout(logout -> logout.logoutUrl("/auth/logout"))
         .build();
     }
 
